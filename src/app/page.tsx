@@ -14,7 +14,6 @@ import Footer from "@/components/Footer";
 import MobileStickyCTA from "@/components/MobileStickyCTA";
 import BackgroundVideo from "@/components/BackgroundVideo";
 import MatrixBackground from "@/components/MatrixBackground";
-import SoundEffects from "@/components/SoundEffects";
 
 export default function Home() {
   return (
@@ -42,9 +41,6 @@ export default function Home() {
         <Footer />
         <MobileStickyCTA />
       </div>
-
-      {/* Omnitrix & Iron Man Tech SFX Engine & Live Toggle */}
-      <SoundEffects />
     </main>
   );
 }

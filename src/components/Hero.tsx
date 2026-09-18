@@ -98,7 +98,7 @@ export default function Hero() {
         <div className="mt-12 flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-slate-400 text-xs font-mono font-medium">
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-cyan-400" />
-            <span>Cash Prizes & Certificates</span>
+            <span>Certificates for Participants</span>
           </div>
           <div className="flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-blue-400" />
