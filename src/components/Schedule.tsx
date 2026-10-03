@@ -1,10 +1,21 @@
 "use client";
 
-import React from "react";
-import { Clock, Coffee, Sparkles, Terminal, Trophy } from "lucide-react";
+import React, { useState } from "react";
+import { Clock, Coffee, Eye, Terminal, Trophy } from "lucide-react";
 import { siteConfig } from "@/config/site";
+import EventRulesModal from "@/components/EventRulesModal";
+import { EventItem } from "@/types/events";
 
 export default function Schedule() {
+  const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null);
+
+  const allEvents = [
+    ...(siteConfig.technicalEvents as unknown as EventItem[]),
+    ...(siteConfig.nonTechnicalEvents as unknown as EventItem[]),
+  ];
+
+  const findEvent = (id: string) => allEvents.find((e) => e.id === id) || null;
+
   return (
     <section id="schedule" className="py-20 lg:py-24 relative overflow-hidden">
       {/* Circuit background accent */}
@@ -21,7 +32,7 @@ export default function Schedule() {
             SYMPOSIUM <span className="text-cyber-glow">SCHEDULE</span>
           </h2>
           <p className="mt-3 text-slate-400 text-sm sm:text-base">
-            Official 2-Slot schedule layout for all 8 technical and non-technical events.
+            Official 2-Slot schedule layout for all 8 technical and non-technical events. Tap any event to inspect round rules.
           </p>
         </div>
 
@@ -40,7 +51,7 @@ export default function Schedule() {
               </div>
               <div className="inline-flex items-center gap-2 text-cyan-400 font-mono font-bold text-sm px-3 py-1 rounded-lg bg-cyan-950/50 border border-cyan-500/20">
                 <Clock className="w-4 h-4" />
-                <span>10:00 AM – 11:00 AM</span>
+                <span>10:00 AM – 11:30 AM</span>
               </div>
             </div>
 
@@ -52,14 +63,26 @@ export default function Schedule() {
                   <span>Technical Events</span>
                 </div>
                 <div className="space-y-2">
-                  <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#091833] border border-cyan-500/30 text-sm font-semibold text-white">
-                    <span>1. Paper Presentation</span>
-                    <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950 px-2 py-0.5 rounded">TECH 01</span>
-                  </div>
-                  <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#091833] border border-cyan-500/30 text-sm font-semibold text-white">
-                    <span>2. Code Clash</span>
-                    <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950 px-2 py-0.5 rounded">TECH 02</span>
-                  </div>
+                  <button
+                    onClick={() => setSelectedEvent(findEvent("paper-presentation"))}
+                    className="w-full flex items-center justify-between p-2.5 rounded-lg bg-[#091833] border border-cyan-500/30 text-sm font-semibold text-white hover:border-cyan-400 hover:bg-cyan-950/70 transition-all text-left group"
+                  >
+                    <span className="group-hover:text-cyan-300 transition-colors">1. Paper Presentation</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950 px-2 py-0.5 rounded border border-cyan-500/20">TECH 01</span>
+                      <Eye className="w-3.5 h-3.5 text-cyan-400 opacity-60 group-hover:opacity-100" />
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => setSelectedEvent(findEvent("code-clash"))}
+                    className="w-full flex items-center justify-between p-2.5 rounded-lg bg-[#091833] border border-cyan-500/30 text-sm font-semibold text-white hover:border-cyan-400 hover:bg-cyan-950/70 transition-all text-left group"
+                  >
+                    <span className="group-hover:text-cyan-300 transition-colors">2. Code Clash</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950 px-2 py-0.5 rounded border border-cyan-500/20">TECH 02</span>
+                      <Eye className="w-3.5 h-3.5 text-cyan-400 opacity-60 group-hover:opacity-100" />
+                    </div>
+                  </button>
                 </div>
               </div>
 
@@ -70,14 +93,26 @@ export default function Schedule() {
                   <span>Non-Technical Events</span>
                 </div>
                 <div className="space-y-2">
-                  <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#0d1c42] border border-blue-500/30 text-sm font-semibold text-white">
-                    <span>1. Connection</span>
-                    <span className="text-[10px] font-mono text-blue-400 bg-blue-950 px-2 py-0.5 rounded">NON-TECH 01</span>
-                  </div>
-                  <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#0d1c42] border border-blue-500/30 text-sm font-semibold text-white">
-                    <span>2. Missing Word</span>
-                    <span className="text-[10px] font-mono text-blue-400 bg-blue-950 px-2 py-0.5 rounded">NON-TECH 02</span>
-                  </div>
+                  <button
+                    onClick={() => setSelectedEvent(findEvent("connection"))}
+                    className="w-full flex items-center justify-between p-2.5 rounded-lg bg-[#0d1c42] border border-blue-500/30 text-sm font-semibold text-white hover:border-blue-400 hover:bg-blue-950/70 transition-all text-left group"
+                  >
+                    <span className="group-hover:text-blue-300 transition-colors">1. Connection</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-mono text-blue-400 bg-blue-950 px-2 py-0.5 rounded border border-blue-500/20">NON-TECH 01</span>
+                      <Eye className="w-3.5 h-3.5 text-blue-400 opacity-60 group-hover:opacity-100" />
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => setSelectedEvent(findEvent("missing-word"))}
+                    className="w-full flex items-center justify-between p-2.5 rounded-lg bg-[#0d1c42] border border-blue-500/30 text-sm font-semibold text-white hover:border-blue-400 hover:bg-blue-950/70 transition-all text-left group"
+                  >
+                    <span className="group-hover:text-blue-300 transition-colors">2. Missing Word</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-mono text-blue-400 bg-blue-950 px-2 py-0.5 rounded border border-blue-500/20">NON-TECH 02</span>
+                      <Eye className="w-3.5 h-3.5 text-blue-400 opacity-60 group-hover:opacity-100" />
+                    </div>
+                  </button>
                 </div>
               </div>
             </div>
@@ -128,14 +163,26 @@ export default function Schedule() {
                   <span>Technical Events</span>
                 </div>
                 <div className="space-y-2">
-                  <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#091833] border border-cyan-500/30 text-sm font-semibold text-white">
-                    <span>1. Project Expo</span>
-                    <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950 px-2 py-0.5 rounded">TECH 03</span>
-                  </div>
-                  <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#091833] border border-cyan-500/30 text-sm font-semibold text-white">
-                    <span>2. UI / UX Design</span>
-                    <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950 px-2 py-0.5 rounded">TECH 04</span>
-                  </div>
+                  <button
+                    onClick={() => setSelectedEvent(findEvent("project-expo"))}
+                    className="w-full flex items-center justify-between p-2.5 rounded-lg bg-[#091833] border border-cyan-500/30 text-sm font-semibold text-white hover:border-cyan-400 hover:bg-cyan-950/70 transition-all text-left group"
+                  >
+                    <span className="group-hover:text-cyan-300 transition-colors">1. Project Expo</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950 px-2 py-0.5 rounded border border-cyan-500/20">TECH 03</span>
+                      <Eye className="w-3.5 h-3.5 text-cyan-400 opacity-60 group-hover:opacity-100" />
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => setSelectedEvent(findEvent("ui-ux-design"))}
+                    className="w-full flex items-center justify-between p-2.5 rounded-lg bg-[#091833] border border-cyan-500/30 text-sm font-semibold text-white hover:border-cyan-400 hover:bg-cyan-950/70 transition-all text-left group"
+                  >
+                    <span className="group-hover:text-cyan-300 transition-colors">2. UI / UX Design</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950 px-2 py-0.5 rounded border border-cyan-500/20">TECH 04</span>
+                      <Eye className="w-3.5 h-3.5 text-cyan-400 opacity-60 group-hover:opacity-100" />
+                    </div>
+                  </button>
                 </div>
               </div>
 
@@ -146,20 +193,39 @@ export default function Schedule() {
                   <span>Non-Technical Events</span>
                 </div>
                 <div className="space-y-2">
-                  <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#0d1c42] border border-blue-500/30 text-sm font-semibold text-white">
-                    <span>1. IPL Auction</span>
-                    <span className="text-[10px] font-mono text-blue-400 bg-blue-950 px-2 py-0.5 rounded">NON-TECH 03</span>
-                  </div>
-                  <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#0d1c42] border border-blue-500/30 text-sm font-semibold text-white">
-                    <span>2. Video Editing</span>
-                    <span className="text-[10px] font-mono text-blue-400 bg-blue-950 px-2 py-0.5 rounded">NON-TECH 04</span>
-                  </div>
+                  <button
+                    onClick={() => setSelectedEvent(findEvent("ipl-auction"))}
+                    className="w-full flex items-center justify-between p-2.5 rounded-lg bg-[#0d1c42] border border-blue-500/30 text-sm font-semibold text-white hover:border-blue-400 hover:bg-blue-950/70 transition-all text-left group"
+                  >
+                    <span className="group-hover:text-blue-300 transition-colors">1. IPL Auction</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-mono text-blue-400 bg-blue-950 px-2 py-0.5 rounded border border-blue-500/20">NON-TECH 03</span>
+                      <Eye className="w-3.5 h-3.5 text-blue-400 opacity-60 group-hover:opacity-100" />
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => setSelectedEvent(findEvent("video-editing"))}
+                    className="w-full flex items-center justify-between p-2.5 rounded-lg bg-[#0d1c42] border border-blue-500/30 text-sm font-semibold text-white hover:border-blue-400 hover:bg-blue-950/70 transition-all text-left group"
+                  >
+                    <span className="group-hover:text-blue-300 transition-colors">2. Video Editing</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-mono text-blue-400 bg-blue-950 px-2 py-0.5 rounded border border-blue-500/20">NON-TECH 04</span>
+                      <Eye className="w-3.5 h-3.5 text-blue-400 opacity-60 group-hover:opacity-100" />
+                    </div>
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Rules & Circular Modal */}
+      <EventRulesModal
+        event={selectedEvent}
+        onClose={() => setSelectedEvent(null)}
+      />
     </section>
   );
 }
+
